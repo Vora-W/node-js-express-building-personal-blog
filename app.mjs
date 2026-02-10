@@ -220,3 +220,5 @@ if (!process.env.VERCEL) {
     console.log(`Server is running at ${port}`);
   });
 }
+
+export default app;
