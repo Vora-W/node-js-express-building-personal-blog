@@ -2,14 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/app.mjs",
+      "src": "app.mjs",
       "use": "@vercel/node"
     }
   ],
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/api/app.mjs"
+      "destination": "/app.mjs"
     }
   ]
 }
