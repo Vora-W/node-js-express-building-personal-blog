@@ -1,30 +1,16 @@
 import { Router } from "express";
 import connectionPool from "../utils/db.mjs";
+import postValidation from "../middleware/postValidation.mjs";
 
 const blogPostsRouter = Router();
 
 // node-js-build-creating-data-api-building-personal-blog-assignment
-blogPostsRouter.post("/", async (req, res) => {
+blogPostsRouter.post("/", postValidation, async (req, res) => {
   try {
     const newPost = {
       ...req.body,
       date: new Date(),
     };
-
-    // Validate required fields before touching the database
-    if (
-      !newPost.title ||
-      !newPost.image ||
-      !newPost.category_id ||
-      !newPost.description ||
-      !newPost.content ||
-      !newPost.status_id
-    ) {
-      return res.status(400).json({
-        message:
-          "Server could not create post because there are missing data from client",
-      });
-    }
 
     await connectionPool.query(
       `INSERT INTO posts (title, image, category_id, description, content, status_id) VALUES ($1, $2, $3, $4, $5, $6)`,
@@ -124,7 +110,7 @@ blogPostsRouter.get("/:postId", async (req, res) => {
   }
 });
 
-blogPostsRouter.put("/:postId", async (req, res) => {
+blogPostsRouter.put("/:postId", postValidation, async (req, res) => {
   try {
     const postIdFromClient = req.params.postId;
     const { title, image, category_id, description, content, status_id } =
